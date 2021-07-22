@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import ChartSection from './components/ChartSection/ChartSection';
+import TableSection from './components/TableSection/TableSection';
+import './styles/styles.scss';
+import NoInternetModal from './components/NoInternetModal/NoInternetModal';
+import CookiesBanner from './components/CookiesBanner/CookiesBanner';
+
+
 
 function App() {
+  const [mode, setMode] = useState('online')
+
+  window.addEventListener('offline', (event) => {
+    setMode('offline');
+  });
+
+  console.log(mode)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-container">
+      <CookiesBanner />
+      <div className="wrapper-container">
+        <div className="main-header">
+          <h1 className="title">Charts and Table Visualization</h1>
+        </div>
+        <ChartSection />
+        <TableSection />
+      </div>
+      {mode === 'offline' && <NoInternetModal setMode={setMode} />}
     </div>
   );
 }
